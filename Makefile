@@ -2,7 +2,9 @@ CC= gcc
 FLAGS= -Wall -Wextra -Werror
 SRC_SCOP = main.c \
 		   terminate_opengl.c \
-		   display_test.c \
+		   launch_loop.c \
+		   init_shader.c \
+		   matrix_calcul.c \
 		   init_opengl.c
 
 OBJ_SCOP= $(SRC_SCOP:.c=.o)
