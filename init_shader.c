@@ -1,4 +1,6 @@
 #include "init_shader.h"
+#include <errno.h>
+#include <string.h>
 
 char		*filetobuf(const char *file)
 {
@@ -6,18 +8,26 @@ char		*filetobuf(const char *file)
     long length;
     char *buf;
     
-    fptr = fopen(file, "rb");
+    errno = 0;
+	printf("Error %d \n", errno);
+    ft_printf("file: '%s'\n", file);
+    fptr = fopen(file, "r");
+    ft_printf("start\n");
     if (!fptr)
+	{
+		printf("Error %d, %s \n", errno, strerror(errno));
         return (NULL);
+	}
+    ft_printf("after\n");
     fseek(fptr, 0, SEEK_END);
     length = ftell(fptr);
     if (!(buf = (char*)malloc(length + 1)))
     	return (NULL);
+    ft_printf("then\n");
     fseek(fptr, 0, SEEK_SET);
     fread(buf, length, 1, fptr);
     fclose(fptr);
     buf[length] = '\0';
-   
     return buf;
 }
 
@@ -51,15 +61,17 @@ int		init_shader(t_opengl *opengl)
 	const char*	fragment_shader;
 	int		err;
 
-	if (!(vertex_shader = filetobuf("shaders/vertex_shader.vert"))
-			|| !(fragment_shader = filetobuf("shaders/fragment_shader.frag")))
+	if (!(vertex_shader = filetobuf("main.c"))
+			|| !(fragment_shader = filetobuf("./shaders/fragment_shader.frag")))
 	{
 		ft_printf("ERROR: Unable to open shader files\n");
 		return (0);
 	}
+	ft_printf("Loading vertex shader\n");
 	opengl->vs = get_shader(vertex_shader, GL_VERTEX_SHADER, &err);
 	if (err)
 		return (0);
+	ft_printf("Loading fragment shader\n");
 	opengl->fs = get_shader(fragment_shader, GL_FRAGMENT_SHADER, &err);
 	if (err)
 		return (0);

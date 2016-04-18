@@ -25,6 +25,57 @@ float		*mult(float *m1, float *m2)
 	return (res);
 }
 
+float		*get_identity()
+{
+	float		*res;
+
+	if (!(res = malloc(sizeof(float) * 16)))
+		return (NULL);
+	ft_bzero(res, sizeof(float) * 16);
+	res[0] = 1;
+	res[5] = 1;
+	res[10] = 1;
+	res[15] = 1;
+	return (res);
+}
+
+void		display_matrix(float *m)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	while (i < 4)
+	{
+		j = 0;
+		while (j < 4)
+		{
+			printf("%.2ff ", m[i * 4 + j]);
+			++j;
+		}
+		printf("\n");
+		++i;
+	}
+}
+
+float		*get_rot_matrix(float alpha)
+{
+	float	*res;
+	float	cos_a;
+	float	sin_a;
+
+	if (!(res = get_identity()))
+		return (NULL);
+	cos_a = cos(alpha);
+	sin_a = sin(alpha);
+	res[0] = cos_a;
+	res[2] = -sin_a;
+	res[8] = sin_a;
+	res[10] = cos_a;
+	return (res);
+}
+
+
 float		*get_projection(float fovy, float aspect, float near, float far)
 {
 	float		f;

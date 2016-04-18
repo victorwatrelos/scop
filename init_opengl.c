@@ -19,53 +19,29 @@ static void		error_callback(int error, const char* description)
 
 static void		init_buffer(t_opengl *opengl)
 {
-static const GLfloat cube_points[] = {
-	-1.0f,-1.0f,-1.0f, // triangle 1 : begin
-	-1.0f,-1.0f, 1.0f,
-	-1.0f, 1.0f, 1.0f, // triangle 1 : end
-	1.0f, 1.0f,-1.0f, // triangle 2 : begin
-	-1.0f,-1.0f,-1.0f,
-	-1.0f, 1.0f,-1.0f, // triangle 2 : end
-	1.0f,-1.0f, 1.0f,
-	-1.0f,-1.0f,-1.0f,
-	1.0f,-1.0f,-1.0f,
-	1.0f, 1.0f,-1.0f,
-	1.0f,-1.0f,-1.0f,
-	-1.0f,-1.0f,-1.0f,
-	-1.0f,-1.0f,-1.0f,
-	-1.0f, 1.0f, 1.0f,
-	-1.0f, 1.0f,-1.0f,
-	1.0f,-1.0f, 1.0f,
-	-1.0f,-1.0f, 1.0f,
-	-1.0f,-1.0f,-1.0f,
-	-1.0f, 1.0f, 1.0f,
-	-1.0f,-1.0f, 1.0f,
-	1.0f,-1.0f, 1.0f,
-	1.0f, 1.0f, 1.0f,
-	1.0f,-1.0f,-1.0f,
-	1.0f, 1.0f,-1.0f,
-	1.0f,-1.0f,-1.0f,
-	1.0f, 1.0f, 1.0f,
-	1.0f,-1.0f, 1.0f,
-	1.0f, 1.0f, 1.0f,
-	1.0f, 1.0f,-1.0f,
-	-1.0f, 1.0f,-1.0f,
-	1.0f, 1.0f, 1.0f,
-	-1.0f, 1.0f,-1.0f,
-	-1.0f, 1.0f, 1.0f,
-	1.0f, 1.0f, 1.0f,
-	-1.0f, 1.0f, 1.0f,
-	1.0f,-1.0f, 1.0f
-};
-	glGenBuffers(1, &(opengl->vbo));
-	glBindBuffer(GL_ARRAY_BUFFER, opengl->vbo);
-	glBufferData(GL_ARRAY_BUFFER, 36 * sizeof (float), cube_points, GL_STATIC_DRAW);
+
+	GLuint						attrloc;
 
 	glGenVertexArrays(1, &(opengl->vao));
 	glBindVertexArray(opengl->vao);
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, opengl->vbo);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+
+	glGenBuffers(3, opengl->vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, opengl->vbo[0]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * opengl->obj.nb_vertices, opengl->obj.vertices, GL_STATIC_DRAW);
+	attrloc = glGetAttribLocation(opengl->shader_program, "in_Position");
+	glVertexAttribPointer(attrloc, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(attrloc);
+
+	glBindBuffer(GL_ARRAY_BUFFER, opengl->vbo[1]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * opengl->obj.nb_colors, opengl->obj.colors, GL_STATIC_DRAW);
+	attrloc = glGetAttribLocation(opengl->shader_program, "in_Color");
+	glVertexAttribPointer(attrloc, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(attrloc);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, opengl->vbo[2]);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * opengl->obj.nb_indexes, opengl->obj.indexes, GL_STATIC_DRAW);
+	glBindVertexArray(0);
+
 }
 
 static void		init_view(t_view *view)
@@ -106,9 +82,10 @@ void			init_opengl(t_opengl *opengl)
 	init_buffer(opengl);
 	glUseProgram (opengl->shader_program);
 	opengl->uloc_P = glGetUniformLocation(opengl->shader_program, "P");
-	opengl->uloc_V = glGetUniformLocation(opengl->shader_program, "V");
-	opengl->view_matrix = get_view_matrix(&(opengl->view));
+	opengl->uloc_R = glGetUniformLocation(opengl->shader_program, "R");
+	opengl->rot_matrix = get_rot_matrix(0.0f);
 	opengl->proj_matrix = get_projection(45, 640 / 480, 0.1, 100);
 	glUniformMatrix4fv(opengl->uloc_P, 1, GL_FALSE, opengl->proj_matrix);
+	glUniformMatrix4fv(opengl->uloc_R, 1, GL_FALSE, opengl->rot_matrix);
 	launch_loop(opengl);
 }

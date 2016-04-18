@@ -12,5 +12,6 @@ float	*get_projection(float fovy, float aspect, float near, float far);
 float	*mult(float *m1, float *m2);
 void	view_matrix(float *m);
 void	mult_vec(float *m, float *v);
+float		*get_rot_matrix(float alpha);
 
 #endif
