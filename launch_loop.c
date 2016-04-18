@@ -13,10 +13,10 @@ void	launch_loop(t_opengl *opengl)
 		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glUseProgram (opengl->shader_program);
 		glBindVertexArray (opengl->vao);
-		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, opengl->obj.buffers[INDEXES].nb_entry, GL_UNSIGNED_INT, 0);
 		glfwPollEvents ();
 		glfwSwapBuffers (opengl->window);
-		alpha += 0.05f;
+		alpha += 0.01f;
 		if (alpha > 2 * M_PI)
 			alpha -= 2 * M_PI;
 	}

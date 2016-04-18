@@ -14,5 +14,5 @@ void main()
 
 	t = vec4(0.0, 0.0, -10.0, 0.0);
 	gl_Position = P * (vec4(in_Position, 1.0) * R + t);
-	fragment_color = in_Color;
+	fragment_color = in_Position;
 }

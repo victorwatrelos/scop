@@ -9,21 +9,16 @@ char		*filetobuf(const char *file)
     char *buf;
     
     errno = 0;
-	printf("Error %d \n", errno);
-    ft_printf("file: '%s'\n", file);
     fptr = fopen(file, "r");
-    ft_printf("start\n");
     if (!fptr)
 	{
-		printf("Error %d, %s \n", errno, strerror(errno));
+		ft_printf("Error on file %s, %d, %s\n", file, errno, strerror(errno));
         return (NULL);
 	}
-    ft_printf("after\n");
     fseek(fptr, 0, SEEK_END);
     length = ftell(fptr);
     if (!(buf = (char*)malloc(length + 1)))
     	return (NULL);
-    ft_printf("then\n");
     fseek(fptr, 0, SEEK_SET);
     fread(buf, length, 1, fptr);
     fclose(fptr);
@@ -61,8 +56,8 @@ int		init_shader(t_opengl *opengl)
 	const char*	fragment_shader;
 	int		err;
 
-	if (!(vertex_shader = filetobuf("main.c"))
-			|| !(fragment_shader = filetobuf("./shaders/fragment_shader.frag")))
+	if (!(vertex_shader = filetobuf("shaders/vertex_shader.vert"))
+			|| !(fragment_shader = filetobuf("shaders/fragment_shader.frag")))
 	{
 		ft_printf("ERROR: Unable to open shader files\n");
 		return (0);
