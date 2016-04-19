@@ -55,19 +55,23 @@ static void		init_view(t_view *view)
 	view->axis[2][2] = 1.f;
 }
 
-static void		init_textures(t_opengl *opengl)
+static int		init_textures(t_opengl *opengl)
 {
+	int		reso[2];
+	uint8_t	*res;
+
+	if (!(res = bmp_parser("res/test-1024-32bit.bmp", reso)))
+		return (0);
 	glGenTextures(1, &(opengl->tex));
 	glBindTexture(GL_TEXTURE_2D, opengl->tex);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	GLfloat pixels[] = {
-		0.5f, 0.0f, 0.0f,   1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,   0.5f, 0.0f, 0.0f
-	};
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 2, 2, 0, GL_RGB, GL_FLOAT, pixels);
+	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 4, 4, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+	printf("reso: %d, %d\n", reso[0], reso[1]);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, reso[0], reso[1], 0, GL_BGRA, GL_UNSIGNED_BYTE, res);
+	return (1);
 }
 
 void			init_opengl(t_opengl *opengl)
@@ -103,7 +107,11 @@ void			init_opengl(t_opengl *opengl)
 		exit(1);
 	}
 	init_view(&(opengl->view));
-	init_textures(opengl);
+	if (!init_textures(opengl))
+	{
+		ft_printf("ERROR: init_textures fail\n");
+		exit(1);
+	}
 	init_buffer(opengl);
 	glUseProgram (opengl->shader_program);
 	opengl->uloc_P = glGetUniformLocation(opengl->shader_program, "P");

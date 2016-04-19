@@ -75,7 +75,6 @@ float		*get_rot_matrix(float alpha)
 	return (res);
 }
 
-
 float		*get_projection(float fovy, float aspect, float near, float far)
 {
 	float		f;

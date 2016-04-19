@@ -3,6 +3,7 @@
 
 # include "opengl_inc.h"
 # include "struct.h"
+# include "utils.h"
 # include <ft_printf.h>
 # include <stdio.h>
 # include <stdlib.h>

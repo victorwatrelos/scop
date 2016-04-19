@@ -8,7 +8,6 @@ static size_t	get_nb_index(char *str)
 	nb_val = sscanf(str, "f %u %u %u %u\n", val, val + 1, val + 2, val + 3);
 	if (nb_val == 4)
 		nb_val = 6;
-	printf("nb val: %lu, str: %s\n", nb_val, str);
 	return (nb_val);
 }
 
@@ -44,12 +43,10 @@ static void		get_face(char *str, t_array *array)
 	i = 0;
 	while (i < nb_val)
 	{
-		printf("%u ", val[i]);
 		ptr_uint[array->nb_entry] = val[i];
 		array->nb_entry++;
 		++i;
 	}
-	printf("\n");
 	array->size += sizeof(GLuint) * nb_val;
 }
 
@@ -67,12 +64,10 @@ static int		get_vertice(char *str, t_array *array)
 	i = 0;
 	while (i < nb_val)
 	{
-		printf("%f ", val[i]);
 		ptr_float[array->nb_entry] = val[i];
 		array->nb_entry++;
 		++i;
 	}
-	printf("\n");
 	array->size += sizeof(GLfloat) * nb_val;
 	return (1);
 }
@@ -111,7 +106,6 @@ static int			get_files(FILE *f, t_obj *obj)
 			obj->buffers[INDEXES].nb_entry += get_nb_index(str);
 		free(tmp);
 	}
-	printf("%lu, %lu\n", obj->buffers[INDEXES].nb_entry, obj->buffers[VERTICES].nb_entry);
 	allocate_array(obj);
 	fseek(f, 0, SEEK_SET);
 	while (fgets(str, MAX_STR_SIZE, f))
@@ -182,7 +176,7 @@ GLuint cube_elements[] = {
 
 	if (!(f = fopen(obj->file_name, "r")))
 	{
-		printf("Error on file %s, %d, %s\n", obj->file_name, errno, strerror(errno));
+		ft_printf("Error on file %s, %d, %s\n", obj->file_name, errno, strerror(errno));
 		return (0);
 	}
 	if (!get_files(f, obj))

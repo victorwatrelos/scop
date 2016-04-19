@@ -1,30 +1,4 @@
 #include "init_shader.h"
-#include <errno.h>
-#include <string.h>
-
-char		*filetobuf(const char *file)
-{
-    FILE *fptr;
-    long length;
-    char *buf;
-    
-    errno = 0;
-    fptr = fopen(file, "r");
-    if (!fptr)
-	{
-		ft_printf("Error on file %s, %d, %s\n", file, errno, strerror(errno));
-        return (NULL);
-	}
-    fseek(fptr, 0, SEEK_END);
-    length = ftell(fptr);
-    if (!(buf = (char*)malloc(length + 1)))
-    	return (NULL);
-    fseek(fptr, 0, SEEK_SET);
-    fread(buf, length, 1, fptr);
-    fclose(fptr);
-    buf[length] = '\0';
-    return buf;
-}
 
 GLuint	get_shader(const char *shader_code, GLenum shader_type, int *err)
 {
@@ -56,8 +30,8 @@ int		init_shader(t_opengl *opengl)
 	const char*	fragment_shader;
 	int		err;
 
-	if (!(vertex_shader = filetobuf("shaders/vertex_shader.vert"))
-			|| !(fragment_shader = filetobuf("shaders/fragment_shader.frag")))
+	if (!(vertex_shader = filetobuf("shaders/vertex_shader.vert", NULL))
+			|| !(fragment_shader = filetobuf("shaders/fragment_shader.frag", NULL)))
 	{
 		ft_printf("ERROR: Unable to open shader files\n");
 		return (0);

@@ -6,6 +6,8 @@ SRC_SCOP = main.c \
 		   init_shader.c \
 		   matrix_calcul.c \
 		   parser.c \
+		   utils.c \
+		   bmp_parser.c \
 		   init_opengl.c
 
 OBJ_SCOP= $(SRC_SCOP:.c=.o)

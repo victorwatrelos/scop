@@ -8,6 +8,7 @@
 # include "matrix_calcul.h"
 # include "init_shader.h"
 # include "parser.h"
+# include "bmp_parser.h"
 
 void			launch_loop(t_opengl *opengl);
 void			init_opengl(t_opengl *opengl);
