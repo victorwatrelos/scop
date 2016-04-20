@@ -8,7 +8,6 @@ static void		init_buffer(t_opengl *opengl)
 
 	glGenVertexArrays(1, &(opengl->vao));
 	glBindVertexArray(opengl->vao);
-
 	tmp = opengl->obj.buffers + VERTICES;
 	glGenBuffers(3, opengl->vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, opengl->vbo[0]);
@@ -16,19 +15,10 @@ static void		init_buffer(t_opengl *opengl)
 	attrloc = glGetAttribLocation(opengl->shader_program, "in_Position");
 	glVertexAttribPointer(attrloc, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(attrloc);
-
 	tmp = opengl->obj.buffers + INDEXES;
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, opengl->vbo[2]);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * tmp->nb_entry, tmp->value, GL_STATIC_DRAW);
 	glBindVertexArray(0);
-}
-
-static void		init_view(t_view *view)
-{
-	ft_bzero(view, sizeof(t_view));
-	view->axis[0][0] = 1.f;
-	view->axis[1][1] = 1.f;
-	view->axis[2][2] = 1.f;
 }
 
 static int		init_textures(t_opengl *opengl)
@@ -58,7 +48,6 @@ void			init_opengl(t_opengl *opengl, int width, int height)
 		ft_printf("ERROR: init_shader fail\n");
 		exit(1);
 	}
-	init_view(&(opengl->view));
 	if (!init_textures(opengl))
 	{
 		ft_printf("ERROR: init_textures fail\n");

@@ -26,9 +26,9 @@ GLuint	get_shader(const char *shader_code, GLenum shader_type, int *err)
 
 int		init_shader(t_opengl *opengl)
 {
-	const char*	vertex_shader;
-	const char*	fragment_shader;
-	int		err;
+	const char	*vertex_shader;
+	const char	*fragment_shader;
+	int			err;
 
 	if (!(vertex_shader = filetobuf("shaders/vertex_shader.vert", NULL))
 			|| !(fragment_shader = filetobuf("shaders/fragment_shader.frag", NULL)))
@@ -36,15 +36,11 @@ int		init_shader(t_opengl *opengl)
 		ft_printf("ERROR: Unable to open shader files\n");
 		return (0);
 	}
-	ft_printf("Loading vertex shader\n");
 	opengl->vs = get_shader(vertex_shader, GL_VERTEX_SHADER, &err);
 	if (err)
 		return (0);
-	ft_printf("Loading fragment shader\n");
 	opengl->fs = get_shader(fragment_shader, GL_FRAGMENT_SHADER, &err);
-	if (err)
-		return (0);
-	if (!(opengl->shader_program = glCreateProgram()))
+	if (err || !(opengl->shader_program = glCreateProgram()))
 		return (0);
 	glAttachShader(opengl->shader_program, opengl->fs);
 	glAttachShader(opengl->shader_program, opengl->vs);

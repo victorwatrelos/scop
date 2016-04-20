@@ -11,6 +11,18 @@ static size_t	get_nb_index(char *str)
 	return (nb_val);
 }
 
+static void		val_4_create(GLuint *ptr_uint, GLuint *val, t_array *array)
+{
+	ptr_uint[0] = val[0];
+	ptr_uint[1] = val[1];
+	ptr_uint[2] = val[2];
+	ptr_uint[3] = val[0];
+	ptr_uint[4] = val[2];
+	ptr_uint[5] = val[3];
+	array->size += sizeof(GLuint) * 6;
+	array->nb_entry += 6;
+}
+
 static void		get_face(char *str, t_array *array)
 {
 	GLuint	val[4];
@@ -23,21 +35,11 @@ static void		get_face(char *str, t_array *array)
 	i = 0;
 	while (i < nb_val)
 	{
-		val[i]--;
-		++i;
+		val[i++]--;
 	}
 	if (nb_val == 4)
 	{
-		i = array->nb_entry;
-		ptr_uint[i++] = val[0];
-		ptr_uint[i++] = val[1];
-		ptr_uint[i++] = val[2];
-
-		ptr_uint[i++] = val[0];
-		ptr_uint[i++] = val[2];
-		ptr_uint[i++] = val[3];
-		array->size += sizeof(GLuint) * 6;
-		array->nb_entry = i;
+		val_4_create(ptr_uint + array->nb_entry, val, array);
 		return ;
 	}
 	i = 0;
@@ -90,6 +92,31 @@ static int			allocate_array(t_obj *obj)
 	return (1);
 }
 
+static int			get_file_2(FILE *f, t_obj *obj)
+{
+	char	str[MAX_STR_SIZE];
+	char	*val;
+	char	*tmp;
+
+	while (fgets(str, MAX_STR_SIZE, f))
+	{
+		tmp = ft_strdup(str);
+		val = strtok(tmp, " ");
+		if (!ft_strcmp(val, "v"))
+		{
+			if (!get_vertice(str, obj->buffers + VERTICES))
+			{
+				ft_printf("ERROR get_vertice (%s)\n", str);
+				return (0);
+			}
+		}
+		else if (!ft_strcmp(val, "f"))
+			get_face(str, obj->buffers + INDEXES);
+		free(tmp);
+	}
+	return (1);
+}
+
 static int			get_files(FILE *f, t_obj *obj)
 {
 	char	str[MAX_STR_SIZE];
@@ -108,22 +135,8 @@ static int			get_files(FILE *f, t_obj *obj)
 	}
 	allocate_array(obj);
 	fseek(f, 0, SEEK_SET);
-	while (fgets(str, MAX_STR_SIZE, f))
-	{
-		tmp = ft_strdup(str);
-		val = strtok(tmp, " ");
-		if (!ft_strcmp(val, "v"))
-		{
-			if (!get_vertice(str, obj->buffers + VERTICES))
-			{
-				ft_printf("ERROR get_vertice (%s)\n", str);
-				return (0);
-			}
-		}
-		else if (!ft_strcmp(val, "f"))
-			get_face(str, obj->buffers + INDEXES);
-		free(tmp);
-	}
+	if (!get_file_2(f, obj))
+		return (0);
 	to_center(obj->buffers + VERTICES);
 	return (1);
 }

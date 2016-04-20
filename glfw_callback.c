@@ -10,7 +10,25 @@ static void	switch_tex(t_control *ctrl)
 	ctrl->is_changing = 1;
 }
 
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+static void		key_press(int key, t_control *ctrl)
+{
+	if (key == 'A')
+		ctrl->dir[LEFT] = 1;
+	else if (key == 'D')
+		ctrl->dir[RIGHT] = 1;
+	else if (key == 'W')
+		ctrl->dir[FRONT] = 1;
+	else if (key == 'S')
+		ctrl->dir[BACK] = 1;
+	else if (key == 'Q')
+		ctrl->dir[UP] = 1;
+	else if (key == 'E')
+		ctrl->dir[DOWN] = 1;
+	else if (key == 'R')
+		switch_tex(ctrl);
+}
+
+void 			key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	t_opengl		*ptr;
 	t_control		*ctrl;
@@ -20,22 +38,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	ptr = (t_opengl *)(glfwGetWindowUserPointer(window));
 	ctrl = &(ptr->ctrl);
 	if (action == GLFW_PRESS)
-	{
-		if (key == 'A')
-			ctrl->dir[LEFT] = 1;
-		else if (key == 'D')
-			ctrl->dir[RIGHT] = 1;
-		else if (key == 'W')
-			ctrl->dir[FRONT] = 1;
-		else if (key == 'S')
-			ctrl->dir[BACK] = 1;
-		else if (key == 'Q')
-			ctrl->dir[UP] = 1;
-		else if (key == 'E')
-			ctrl->dir[DOWN] = 1;
-		else if (key == 'R')
-			switch_tex(ctrl);
-	}
+		key_press(key, ctrl);
 	else if (action == GLFW_RELEASE)
 	{
 		if (key == 'A')

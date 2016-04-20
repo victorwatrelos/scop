@@ -3,8 +3,6 @@
 static void		setGlfwWindowHint(void)
 {
 	glfwWindowHint(GLFW_SAMPLES, 4);
-//	glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
-//	glfwWindowHint(GLFW_DEPTH_BITS, 24);
   	glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
@@ -16,6 +14,7 @@ static void		error_callback(int error, const char* description)
 {
 	ft_printf("error: %d, %s\n", error, description);
 }
+
 static void		init_glfw(t_opengl *opengl)
 {
     glfwSetErrorCallback(error_callback);
