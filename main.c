@@ -1,5 +1,5 @@
 #include <GLFW/glfw3.h>
-#include "init_opengl.h"
+#include "init_display.h"
 #include <ft_printf.h>
 
 int main(int ac, char **av)
@@ -13,5 +13,5 @@ int main(int ac, char **av)
 	}
 	ft_bzero(&opengl, sizeof(opengl));
 	opengl.obj.file_name = av[1];
-	init_opengl(&opengl);
+	init_display(&opengl);
 }

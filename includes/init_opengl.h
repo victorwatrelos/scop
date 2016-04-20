@@ -9,8 +9,8 @@
 # include "init_shader.h"
 # include "parser.h"
 # include "bmp_parser.h"
+# include "glfw_callback.h"
 
-void			launch_loop(t_opengl *opengl);
-void			init_opengl(t_opengl *opengl);
+void			init_opengl(t_opengl *opengl, int width, int height);
 
 #endif

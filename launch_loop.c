@@ -1,21 +1,65 @@
 #include "init_opengl.h"
 
+static void	do_move(t_opengl *opengl)
+{
+	t_control	*ctrl;
+
+	ctrl = &(opengl->ctrl);
+	if (ctrl->dir[DOWN])
+		opengl->trans.y -= STEP;
+	if (ctrl->dir[UP])
+		opengl->trans.y += STEP;
+	if (ctrl->dir[LEFT])
+		opengl->trans.x -= STEP;
+	if (ctrl->dir[RIGHT])
+		opengl->trans.x += STEP;
+	if (ctrl->dir[FRONT])
+		opengl->trans.z -= STEP;
+	if (ctrl->dir[BACK])
+		opengl->trans.z += STEP;
+}
+
+static void	do_trans_tex(t_opengl *opengl)
+{
+	t_control *ctrl;
+
+	ctrl = &(opengl->ctrl);
+	if (!ctrl->is_changing)
+		return ;
+	ctrl->intensity += ctrl->step;
+	if (ctrl->step < 0.f && ctrl->intensity < 0.f)
+	{
+		ctrl->is_changing = 0;
+		ctrl->intensity = 0.f;
+	}
+	if (ctrl->step > 0.f && ctrl->intensity > 1.f)
+	{
+		ctrl->is_changing = 0;
+		ctrl->intensity = 1.f;
+	}
+	glUniform1f(opengl->uloc_FADE , ctrl->intensity);
+}
 
 void	launch_loop(t_opengl *opengl)
 {
 	float	alpha;
+	float	*rot_matrix;
 
 	alpha = 0.f;
 	while (!glfwWindowShouldClose (opengl->window))
 	{
-		opengl->rot_matrix = get_rot_matrix(alpha);
-		glUniformMatrix4fv(opengl->uloc_R, 1, GL_FALSE, opengl->rot_matrix);
+		rot_matrix = get_rot_matrix(alpha);
+		glUniformMatrix4fv(opengl->uloc_R, 1, GL_FALSE, rot_matrix);
+		free(rot_matrix);
+		glUniform4f(opengl->uloc_T, opengl->trans.x, opengl->trans.y, opengl->trans.z, 1.0f);
 		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glUseProgram (opengl->shader_program);
 		glBindVertexArray (opengl->vao);
 		glDrawElements(GL_TRIANGLES, opengl->obj.buffers[INDEXES].nb_entry, GL_UNSIGNED_INT, 0);
 		glfwPollEvents ();
 		glfwSwapBuffers (opengl->window);
+		do_move(opengl);
+		do_trans_tex(opengl);
 		alpha += 0.01f;
 		if (alpha > 2 * M_PI)
 			alpha -= 2 * M_PI;

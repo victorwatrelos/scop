@@ -8,6 +8,9 @@ SRC_SCOP = main.c \
 		   parser.c \
 		   utils.c \
 		   bmp_parser.c \
+		   glfw_callback.c \
+		   init_display.c \
+		   to_center.c \
 		   init_opengl.c
 
 OBJ_SCOP= $(SRC_SCOP:.c=.o)

@@ -124,54 +124,12 @@ static int			get_files(FILE *f, t_obj *obj)
 			get_face(str, obj->buffers + INDEXES);
 		free(tmp);
 	}
+	to_center(obj->buffers + VERTICES);
 	return (1);
 }
 
-int		parse_file(t_obj *obj)
+int			parse_file(t_obj *obj)
 {
-	/*
-	GLfloat cube_vertices[] = {
-		// front
-		-1.0, -1.0,  1.0,
-		1.0, -1.0,  1.0,
-		1.0,  1.0,  1.0,
-		-1.0,  1.0,  1.0,
-		// back
-		-1.0, -1.0, -1.0,
-		1.0, -1.0, -1.0,
-		1.0,  1.0, -1.0,
-		-1.0,  1.0, -1.0,
-	};
-	*/
-	GLfloat colors[] = {
-		1.0, 0.0, 0.0,
-		0.0, 1.0, 0.0,
-		0.0, 0.0, 1.0,
-		1.0, 1.0, 1.0,
-	};
-	/*
-GLuint cube_elements[] = {
-		// front
-		0, 1, 2,
-		2, 3, 0,
-		// top
-		1, 5, 6,
-		6, 2, 1,
-		// back
-		7, 6, 5,
-		5, 4, 7,
-		// bottom
-		4, 0, 3,
-		3, 7, 4,
-		// left
-		4, 5, 1,
-		1, 0, 4,
-		// right
-		3, 2, 6,
-		6, 7, 3,
-	};
-	*/
-	t_array	*tmp;
 	FILE	*f;
 
 	if (!(f = fopen(obj->file_name, "r")))
@@ -181,28 +139,6 @@ GLuint cube_elements[] = {
 	}
 	if (!get_files(f, obj))
 		return (0);
-
-	/*
-	tmp = obj->buffers + VERTICES;
-	tmp->value = malloc(sizeof(cube_vertices));
-	tmp->nb_entry = 24;
-	tmp->size = sizeof(cube_vertices);
-	ft_memcpy(tmp->value, cube_vertices, sizeof(cube_vertices));
-	*/
-
-	tmp = obj->buffers + COLORS;
-	tmp->value = malloc(sizeof(colors));
-	tmp->nb_entry = 12;
-	tmp->size = sizeof(colors);
-	ft_memcpy(tmp->value, colors, sizeof(colors));
-
-	/*
-	tmp = obj->buffers + INDEXES;
-	tmp->value = malloc(sizeof(cube_elements));
-	tmp->nb_entry = 36;
-	tmp->size = sizeof(cube_elements);
-	ft_memcpy(tmp->value, cube_elements, sizeof(cube_elements));
-	*/
 	fclose(f);
 	return (1);
 }

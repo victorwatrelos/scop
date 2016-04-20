@@ -9,9 +9,9 @@ static unsigned int	get_file_header(void *data, size_t size, int *res)
 		return (0);
 	header = (t_bmp_header *)data;
 	info = (t_bmp_info *)(data + sizeof(t_bmp_header));
-	printf("Header: size: %u(%uMB), offset: %u\n", header->size, header->size / (1024 * 1024), header->offset);
-	printf("Info: size: %u (%uMB), width: %d, height: %d, nb_bits: %hu, plane_nb: %hum bits: %hu\n",
-			info->size, info->size / (1024 * 1024), info->width, info->height, info->bits, info->planes, info->bits);
+	//printf("Header: size: %u(%uMB), offset: %u\n", header->size, header->size / (1024 * 1024), header->offset);
+	//printf("Info: size: %u (%uMB), width: %d, height: %d, nb_bits: %hu, plane_nb: %hum bits: %hu\n",
+	//		info->size, info->size / (1024 * 1024), info->width, info->height, info->bits, info->planes, info->bits);
 	if (header->size != size)
 		return (0);
 	if ((size - header->offset) < (unsigned long)(info->width * info->height * 4))
@@ -36,7 +36,6 @@ void		update_data(uint8_t *data, size_t size)
 		tmp_ptr[1] = tmp_ptr[2];
 		tmp_ptr[2] = tmp_ptr[3];
 		tmp_ptr[3] = alpha;
-		//printf("res: %hhu, %hhu, %hhu, %hhu\n", data[i], data[i + 1], data[i + 2], data[i + 3]);
 		i += 4;
 	}
 }

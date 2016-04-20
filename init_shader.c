@@ -49,5 +49,9 @@ int		init_shader(t_opengl *opengl)
 	glAttachShader(opengl->shader_program, opengl->fs);
 	glAttachShader(opengl->shader_program, opengl->vs);
 	glLinkProgram(opengl->shader_program);
+	glDetachShader(opengl->shader_program, opengl->fs);
+	glDetachShader(opengl->shader_program, opengl->vs);
+	glDeleteShader(opengl->fs);
+	glDeleteShader(opengl->vs);
 	return (1);
 }

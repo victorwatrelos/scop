@@ -1,3 +1,5 @@
 ft_scop
+*.supp
 *.o
 *.dSYM
+res/
