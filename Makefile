@@ -27,13 +27,12 @@ FRWK=-framework Cocoa \
 	-framework CoreFoundation
 
 .PHONY: clean fclean re all
-
 .SILENT:
 
 all: $(NAME_SCOP)
 
 $(NAME_SCOP): $(OBJ_SCOP)
-	(cd $(DIR_LFT) ; make )
+	make -C $(DIR_LFT)
 	$(CC) -o $(NAME_SCOP) $(OBJ_SCOP) $(LIB) $(FLAGS) $(FRWK)
 	echo "\t\xF0\x9F\x8F\x81   Compiling \033[35m$(NAME_SCOP) \033[0mDONE!"
 
@@ -42,12 +41,12 @@ $(NAME_SCOP): $(OBJ_SCOP)
 	$(CC) -c $(FLAGS) -o $@ $< $(INCLUDES)
 
 clean:
-	(cd $(DIR_LFT) ; make clean)
+	make clean -C $(DIR_LFT)
 	echo "\t\xF0\x9F\x92\xA3   Cleaning"
 	rm -rf $(OBJ_SCOP)
 
 fclean: clean
-	(cd $(DIR_LFT) ; make fclean)
+	make fclean -C $(DIR_LFT)
 	echo "\t\xF0\x9F\x9A\xBD   Full Clean"
 	rm -rf $(NAME_SCOP)
 

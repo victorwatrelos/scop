@@ -77,8 +77,8 @@ OBJ=$(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	ar -q $(NAME) $^
-	ranlib $(NAME)
+	@ar rc $(NAME) $^
+	@ranlib $(NAME)
 
 %.o: %.c
 	$(CC) -o $@ -c $< $(FLAGS) $(INCLUDES)
