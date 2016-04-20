@@ -3,3 +3,4 @@ ft_scop
 *.o
 *.dSYM
 res/
+*.a
