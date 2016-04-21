@@ -22,20 +22,18 @@ SRC=ft_lstadd.c \
 
 OBJ=$(SRC:.c=.o)
 
-.PHONY: clean fclean re all
-.SILENT:
-
 all: $(NAME)
 
 $(NAME): libft
 
 libft: $(OBJ)
-	@ar rc $(NAME) $^
-	@ranlib $(NAME)
+	ar -q $(NAME) $^
+	ranlib $(NAME)
 
 %.o: %.c
 	$(CC) -o $@ -c $< $(FLAGS) $(INCLUDES)
 
+.PHONY: clean mrproper
 
 clean:
 	rm -rf $(OBJ)

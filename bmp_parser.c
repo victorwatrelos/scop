@@ -4,6 +4,7 @@ static unsigned int	get_file_header(void *data, size_t size, int *res)
 {
 	t_bmp_header	*header;
 	t_bmp_info		*info;
+	size_t			tot_size;
 
 	if (size < sizeof(t_bmp_header) + sizeof(t_bmp_info))
 		return (0);
@@ -11,33 +12,31 @@ static unsigned int	get_file_header(void *data, size_t size, int *res)
 	info = (t_bmp_info *)(data + sizeof(t_bmp_header));
 	if (header->size != size)
 		return (0);
-	if ((size - header->offset) < (unsigned long)(info->width * info->height * 4))
+	tot_size = info->width * info->height * 3;
+	if ((size - header->offset) < (unsigned long)(tot_size))
 		return (0);
 	res[0] = info->width;
 	res[1] = info->height;
 	return (header->offset);
 }
 
-void		update_data(uint8_t *data, size_t size)
+void				update_data(uint8_t *data, size_t size)
 {
 	size_t		i;
-	uint8_t		alpha;
 	uint8_t		*tmp_ptr;
 
 	i = 0;
 	while (i < size)
 	{
 		tmp_ptr = data + i;
-		alpha = tmp_ptr[0];
-		tmp_ptr[0] = tmp_ptr[1];
-		tmp_ptr[1] = tmp_ptr[2];
-		tmp_ptr[2] = tmp_ptr[3];
-		tmp_ptr[3] = alpha;
-		i += 4;
+		tmp_ptr[0] = tmp_ptr[0];
+		tmp_ptr[1] = tmp_ptr[1];
+		tmp_ptr[2] = tmp_ptr[2];
+		i += 3;
 	}
 }
 
-uint8_t		*bmp_parser(const char *file_name, int *reso)
+uint8_t				*bmp_parser(const char *file_name, int *reso)
 {
 	uint8_t			*tmp;
 	uint8_t			*res;

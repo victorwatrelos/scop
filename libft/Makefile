@@ -19,7 +19,9 @@ LIB=ft_printf/libft_printf.a \
 	list/libft_list.a
 
 .PHONY: clean fclean all re
+
 .SILENT:
+
 all: $(NAME)
 
 $(NAME): libft
@@ -28,18 +30,18 @@ libft: $(LIB)
 	$(foreach var, $(LIB), mv $(var) $(notdir $(var)) ;)
 
 ft_printf/libft_printf.a:
-	make -C ft_printf
+	(cd ft_printf && $(MAKE))
 
 list/libft_list.a:
-	make -C list
+	(cd list && $(MAKE))
 
 libft_core/libft_core.a:
-	make -C libft_core
+	(cd libft_core && $(MAKE))
 
 clean:
-	make clean -C libft_core
-	make clean -C ft_printf
-	make clean -C list
+	(cd libft_core && $(MAKE) clean)
+	(cd ft_printf && $(MAKE) clean)
+	(cd list && $(MAKE) clean)
 
 fclean: clean
 	rm -f $(notdir $(LIB))

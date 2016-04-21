@@ -3,7 +3,7 @@
 static size_t	get_nb_index(char *str)
 {
 	GLuint	val[4];
-	size_t	nb_val = 0;
+	size_t	nb_val;
 
 	nb_val = sscanf(str, "f %u %u %u %u\n", val, val + 1, val + 2, val + 3);
 	if (nb_val == 4)
@@ -83,7 +83,6 @@ static int			allocate_array(t_obj *obj)
 	if (!(tmp->value = malloc(tmp->size_alloc)))
 		return (0);
 	tmp->nb_entry = 0;
-
 	tmp = obj->buffers + VERTICES;
 	tmp->size_alloc = sizeof(GLfloat) * obj->buffers[VERTICES].nb_entry;
 	if (!(tmp->value = malloc(tmp->size_alloc)))
@@ -147,7 +146,8 @@ int			parse_file(t_obj *obj)
 
 	if (!(f = fopen(obj->file_name, "r")))
 	{
-		ft_printf("Error on file %s, %d, %s\n", obj->file_name, errno, strerror(errno));
+		ft_printf("Error on file %s, %d, %s\n",
+				obj->file_name, errno, strerror(errno));
 		return (0);
 	}
 	if (!get_files(f, obj))

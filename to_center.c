@@ -28,7 +28,7 @@ static float	calc_m(t_array *array, size_t step, size_t offset)
 	return (-((min + max) / 2.0f));
 }
 
-static void	apply_trans(t_array *array, float *trans, size_t size_trans)
+static void		apply_trans(t_array *array, float *trans, size_t size_trans)
 {
 	float	*v;
 	size_t	i;
@@ -48,7 +48,7 @@ static void	apply_trans(t_array *array, float *trans, size_t size_trans)
 	}
 }
 
-void		to_center(t_array *array)
+void			to_center(t_array *array)
 {
 	float	cor[3];
 

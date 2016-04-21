@@ -1,6 +1,6 @@
 #include "init_opengl.h"
 
-static void	do_move(t_opengl *opengl)
+static void			do_move(t_opengl *opengl)
 {
 	t_control	*ctrl;
 
@@ -19,7 +19,7 @@ static void	do_move(t_opengl *opengl)
 		opengl->trans.z += STEP;
 }
 
-static void	do_trans_tex(t_opengl *opengl)
+static void			do_trans_tex(t_opengl *opengl)
 {
 	t_control *ctrl;
 
@@ -37,27 +37,28 @@ static void	do_trans_tex(t_opengl *opengl)
 		ctrl->is_changing = 0;
 		ctrl->intensity = 1.f;
 	}
-	glUniform1f(opengl->uloc_FADE , ctrl->intensity);
+	glUniform1f(opengl->uloc_fade, ctrl->intensity);
 }
 
-void	launch_loop(t_opengl *opengl)
+void				launch_loop(t_opengl *opengl)
 {
 	float	alpha;
-	float	*rot_matrix;
+	float	*rm;
 
 	alpha = 0.f;
-	while (!glfwWindowShouldClose (opengl->window))
+	while (!glfwWindowShouldClose(opengl->window))
 	{
-		rot_matrix = get_rot_matrix(alpha);
-		glUniformMatrix4fv(opengl->uloc_R, 1, GL_FALSE, rot_matrix);
-		free(rot_matrix);
-		glUniform4f(opengl->uloc_T, opengl->trans.x, opengl->trans.y, opengl->trans.z, 1.0f);
-		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glUseProgram (opengl->shader_program);
-		glBindVertexArray (opengl->vao);
-		glDrawElements(GL_TRIANGLES, opengl->obj.buffers[INDEXES].nb_entry, GL_UNSIGNED_INT, 0);
-		glfwPollEvents ();
-		glfwSwapBuffers (opengl->window);
+		glUniformMatrix4fv(opengl->uloc_r, 1, GL_FALSE, rm = get_rot_m(alpha));
+		free(rm);
+		glUniform4f(opengl->uloc_t, opengl->trans.x,
+				opengl->trans.y, opengl->trans.z, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glUseProgram(opengl->shader_program);
+		glBindVertexArray(opengl->vao);
+		glDrawElements(GL_TRIANGLES, opengl->obj.buffers[INDEXES].nb_entry,
+				GL_UNSIGNED_INT, 0);
+		glfwPollEvents();
+		glfwSwapBuffers(opengl->window);
 		do_move(opengl);
 		do_trans_tex(opengl);
 		alpha += 0.01f;

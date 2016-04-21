@@ -5,8 +5,8 @@
 
 typedef struct		s_view
 {
-		float		axis[3][3];
-		float		eye_pos[3];
+	float			axis[3][3];
+	float			eye_pos[3];
 }					t_view;
 
 typedef struct		s_array
@@ -52,23 +52,23 @@ typedef struct		s_vec3
 
 typedef struct		s_opengl
 {
-		GLFWwindow	*window;
-		GLuint		vs;
-		GLuint		fs;
-		GLuint		vbo[3];
-		GLuint		vao;
-		GLuint		tex;
-		GLuint		shader_program;
-		t_view		view;
-		float		*proj_matrix;
-		float		*rot_matrix;
-		GLint		uloc_P;
-		GLint		uloc_R;
-		GLint		uloc_T;
-		GLint		uloc_FADE;
-		t_obj		obj;
-		t_control	ctrl;
-		t_vec3		trans;
+	GLFWwindow		*window;
+	GLuint			vs;
+	GLuint			fs;
+	GLuint			vbo[3];
+	GLuint			vao;
+	GLuint			tex;
+	GLuint			shader_program;
+	t_view			view;
+	float			*proj_matrix;
+	float			*rot_matrix;
+	GLint			uloc_p;
+	GLint			uloc_r;
+	GLint			uloc_t;
+	GLint			uloc_fade;
+	t_obj			obj;
+	t_control		ctrl;
+	t_vec3			trans;
 }					t_opengl;
 
 #endif

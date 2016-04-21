@@ -28,7 +28,8 @@ static void		key_press(int key, t_control *ctrl)
 		switch_tex(ctrl);
 }
 
-void 			key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+void			key_callback(GLFWwindow *window, int key,
+		int scancode, int action, int mods)
 {
 	t_opengl		*ptr;
 	t_control		*ctrl;

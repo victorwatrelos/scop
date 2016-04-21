@@ -7,6 +7,7 @@
 # include <libft.h>
 # include <ft_printf.h>
 
-void	key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+void	key_callback(GLFWwindow *window, int key, int scancode,
+		int action, int mods);
 
 #endif

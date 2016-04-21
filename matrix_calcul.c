@@ -1,6 +1,6 @@
 #include "matrix_calcul.h"
 
-float		*get_identity()
+float		*get_identity(void)
 {
 	float		*res;
 
@@ -14,26 +14,7 @@ float		*get_identity()
 	return (res);
 }
 
-void		display_matrix(float *m)
-{
-	int		i;
-	int		j;
-
-	i = 0;
-	while (i < 4)
-	{
-		j = 0;
-		while (j < 4)
-		{
-			printf("%.2ff ", m[i * 4 + j]);
-			++j;
-		}
-		printf("\n");
-		++i;
-	}
-}
-
-float		*get_rot_matrix(float alpha)
+float		*get_rot_m(float alpha)
 {
 	float	*res;
 	float	cos_a;
@@ -59,11 +40,11 @@ float		*get_projection(float fovy, float aspect, float near, float far)
 		return (NULL);
 	ft_bzero(matrix, sizeof(float) * 16);
 	f = 1.0f / tanf(fovy / 2.0f);
-    matrix[0]  = f / aspect;
-    matrix[5]  = f;
-    matrix[10] = (far + near)/ (near - far);
-    matrix[11] = -1.0f;
-    matrix[14] = 2.0f * (far * near) / (near - far);
+	matrix[0] = f / aspect;
+	matrix[5] = f;
+	matrix[10] = (far + near) / (near - far);
+	matrix[11] = -1.0f;
+	matrix[14] = 2.0f * (far * near) / (near - far);
 	matrix[15] = 0.0f;
 	return (matrix);
 }

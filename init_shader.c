@@ -4,17 +4,17 @@ GLuint	get_shader(const char *shader_code, GLenum shader_type, int *err)
 {
 	GLuint		shader;
 	GLint		shader_ok;
-    GLsizei		log_length;
-    char		info_log[8192];
+	GLsizei		log_length;
+	char		info_log[8192];
 
 	shader = glCreateShader(shader_type);
-	glShaderSource (shader, 1, &shader_code, NULL);
-	glCompileShader (shader);
+	glShaderSource(shader, 1, &shader_code, NULL);
+	glCompileShader(shader);
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &shader_ok);
 	if (shader_ok != GL_TRUE)
 	{
 		ft_printf("ERROR: Failed to compile shader\n");
-		glGetShaderInfoLog(shader, 8192, &log_length,info_log);
+		glGetShaderInfoLog(shader, 8192, &log_length, info_log);
 		ft_printf("ERROR: \n%s\n\n", info_log);
 		glDeleteShader(shader);
 		*err = 1;
@@ -31,7 +31,8 @@ int		init_shader(t_opengl *opengl)
 	int			err;
 
 	if (!(vertex_shader = filetobuf("shaders/vertex_shader.vert", NULL))
-			|| !(fragment_shader = filetobuf("shaders/fragment_shader.frag", NULL)))
+			|| !(fragment_shader = filetobuf("shaders/fragment_shader.frag",
+					NULL)))
 	{
 		ft_printf("ERROR: Unable to open shader files\n");
 		return (0);
