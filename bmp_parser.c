@@ -2,37 +2,39 @@
 
 static unsigned int	get_file_header(void *data, size_t size, int *res)
 {
-	t_bmp_header	*header;
-	t_bmp_info		*info;
 	size_t			tot_size;
+	unsigned int	size_header;
+	unsigned int	offset;
 
-	if (size < sizeof(t_bmp_header) + sizeof(t_bmp_info))
+	if (size < SIZE_HEADER + SIZE_INFO)
 		return (0);
-	header = (t_bmp_header *)data;
-	info = (t_bmp_info *)(data + sizeof(t_bmp_header));
-	if (header->size != size)
+	size_header = *(unsigned int *)(data + SIZE_SHORT);
+	offset = *(unsigned int *)(data + (SIZE_SHORT * 3) + SIZE_INT);
+	if (size_header != size)
 		return (0);
-	tot_size = info->width * info->height * 3;
-	if ((size - header->offset) < (unsigned long)(tot_size))
+	res[0] = *(int *)(data + SIZE_HEADER + SIZE_INT);
+	res[1] = *(int *)(data + SIZE_HEADER + SIZE_INT + SIZE_INT);
+	tot_size = res[0] * res[1] * 4;
+	if ((size - offset) < (unsigned long)(tot_size))
 		return (0);
-	res[0] = info->width;
-	res[1] = info->height;
-	return (header->offset);
+	return (offset);
 }
 
 void				update_data(uint8_t *data, size_t size)
 {
 	size_t		i;
 	uint8_t		*tmp_ptr;
+	uint8_t		alpha;
 
 	i = 0;
 	while (i < size)
 	{
 		tmp_ptr = data + i;
-		tmp_ptr[0] = tmp_ptr[0];
-		tmp_ptr[1] = tmp_ptr[1];
-		tmp_ptr[2] = tmp_ptr[2];
-		i += 3;
+		alpha = tmp_ptr[0];
+		tmp_ptr[0] = tmp_ptr[1];
+		tmp_ptr[1] = tmp_ptr[2];
+		tmp_ptr[2] = tmp_ptr[3];
+		i += 4;
 	}
 }
 

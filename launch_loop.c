@@ -40,20 +40,27 @@ static void			do_trans_tex(t_opengl *opengl)
 	glUniform1f(opengl->uloc_fade, ctrl->intensity);
 }
 
+static void			set_uniform(t_opengl *opengl, float alpha)
+{
+	float	*rm;
+
+	glUniformMatrix4fv(opengl->uloc_r, 1, GL_FALSE, rm = get_rot_m(alpha));
+	free(rm);
+	glUniform4f(opengl->uloc_t, opengl->trans.x,
+			opengl->trans.y, opengl->trans.z, 1.0f);
+	glUniform1i(opengl->uloc_tex, opengl->ctrl.clipping);
+}
+
 void				launch_loop(t_opengl *opengl)
 {
 	float	alpha;
-	float	*rm;
 
 	alpha = 0.f;
 	while (!glfwWindowShouldClose(opengl->window))
 	{
-		glUniformMatrix4fv(opengl->uloc_r, 1, GL_FALSE, rm = get_rot_m(alpha));
-		free(rm);
-		glUniform4f(opengl->uloc_t, opengl->trans.x,
-				opengl->trans.y, opengl->trans.z, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glUseProgram(opengl->shader_program);
+		set_uniform(opengl, alpha);
 		glBindVertexArray(opengl->vao);
 		glDrawElements(GL_TRIANGLES, opengl->obj.buffers[INDEXES].nb_entry,
 				GL_UNSIGNED_INT, 0);

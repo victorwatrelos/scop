@@ -26,6 +26,8 @@ static void		key_press(int key, t_control *ctrl)
 		ctrl->dir[DOWN] = 1;
 	else if (key == 'R')
 		switch_tex(ctrl);
+	else if (key == 'T')
+		ctrl->clipping = !ctrl->clipping;
 }
 
 void			key_callback(GLFWwindow *window, int key,

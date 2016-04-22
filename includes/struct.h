@@ -41,6 +41,7 @@ typedef struct		s_control
 	float			step;
 	float			intensity;
 	int				is_changing;
+	int				clipping;
 }					t_control;
 
 typedef struct		s_vec3
@@ -66,6 +67,7 @@ typedef struct		s_opengl
 	GLint			uloc_r;
 	GLint			uloc_t;
 	GLint			uloc_fade;
+	GLint			uloc_tex;
 	t_obj			obj;
 	t_control		ctrl;
 	t_vec3			trans;

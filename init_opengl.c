@@ -27,7 +27,7 @@ static int		init_textures(t_opengl *opengl)
 	int		reso[2];
 	uint8_t	*res;
 
-	if (!(res = bmp_parser("tex/texture.bmp", reso)))
+	if (!(res = bmp_parser("tex.bmp", reso)))
 		return (0);
 	glGenTextures(1, &(opengl->tex));
 	glBindTexture(GL_TEXTURE_2D, opengl->tex);
@@ -46,6 +46,7 @@ static void		set_uniform(t_opengl *opengl)
 	opengl->uloc_p = glGetUniformLocation(opengl->shader_program, "P");
 	opengl->uloc_r = glGetUniformLocation(opengl->shader_program, "R");
 	opengl->uloc_t = glGetUniformLocation(opengl->shader_program, "T");
+	opengl->uloc_tex = glGetUniformLocation(opengl->shader_program, "TEX");
 	opengl->uloc_fade = glGetUniformLocation(opengl->shader_program, "FADE");
 	opengl->rot_matrix = get_rot_m(0.0f);
 	opengl->proj_matrix = get_projection(45, 640 / 480, 0.1, 100);
@@ -54,6 +55,7 @@ static void		set_uniform(t_opengl *opengl)
 	glUniform4f(opengl->uloc_t, opengl->trans.x, opengl->trans.y,
 			opengl->trans.z, 1.0f);
 	glUniform1f(opengl->uloc_fade, 0.0f);
+	glUniform1i(opengl->uloc_tex, opengl->ctrl.clipping);
 }
 
 void			init_opengl(t_opengl *opengl, int width, int height)

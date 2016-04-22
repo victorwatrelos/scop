@@ -1,5 +1,5 @@
 CC= gcc
-FLAGS= -Wall -Wextra -Werror -O3
+FLAGS= -Wall -Wextra -Werror -g
 SRC_SCOP = main.c \
 		   terminate_opengl.c \
 		   launch_loop.c \
