@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   glfw_callback.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vwatrelo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/04/23 14:53:51 by vwatrelo          #+#    #+#             */
+/*   Updated: 2016/04/23 14:53:54 by vwatrelo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "glfw_callback.h"
 
-static void	switch_tex(t_control *ctrl)
+static void		switch_tex(t_control *ctrl)
 {
 	ctrl->display_tex = !ctrl->display_tex;
 	if (ctrl->display_tex)
