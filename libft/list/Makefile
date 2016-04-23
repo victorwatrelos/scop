@@ -27,7 +27,7 @@ all: $(NAME)
 $(NAME): libft
 
 libft: $(OBJ)
-	ar -q $(NAME) $^
+	ar rc $(NAME) $^
 	ranlib $(NAME)
 
 %.o: %.c
