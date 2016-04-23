@@ -2,7 +2,7 @@
 #include "init_display.h"
 #include <ft_printf.h>
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	t_opengl	opengl;
 
@@ -14,4 +14,5 @@ int main(int ac, char **av)
 	ft_bzero(&opengl, sizeof(opengl));
 	opengl.obj.file_name = av[1];
 	init_display(&opengl);
+	return (0);
 }

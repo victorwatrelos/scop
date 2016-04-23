@@ -6,6 +6,7 @@ SRC_SCOP = main.c \
 		   init_shader.c \
 		   matrix_calcul.c \
 		   parser.c \
+		   parser_utils.c \
 		   utils.c \
 		   bmp_parser.c \
 		   glfw_callback.c \
